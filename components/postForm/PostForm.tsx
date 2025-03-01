@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import styles from './PostForm.module.css';
+import { useState } from "react";
+import styles from "./PostForm.module.css";
+import Markdown from "react-markdown";
 
 interface PostFormProps {
   onSuccess?: () => void;
@@ -9,39 +10,41 @@ interface PostFormProps {
 
 export default function PostForm({ onSuccess }: PostFormProps) {
   const [formData, setFormData] = useState({
-    title: '',
-    content: '',
-    tags: '',
+    title: "",
+    content: "",
+    tags: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const res = await fetch('/api/posts', {
-        method: 'POST',
+      const res = await fetch("/api/posts", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           ...formData,
-          tags: formData.tags.split(',').map(tag => tag.trim()),
+          tags: formData.tags.split(",").map((tag) => tag.trim()),
         }),
       });
 
-      if (!res.ok) throw new Error('Failed to create post');
+      if (!res.ok) {
+        throw new Error("Failed to create post");
+      }
 
-      setFormData({ title: '', content: '', tags: '' });
+      setFormData({ title: "", content: "", tags: "" });
       onSuccess?.();
     } catch (error) {
-      console.error('Error creating post:', error);
+      console.error("Error creating post:", error);
     }
   };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
@@ -71,6 +74,10 @@ export default function PostForm({ onSuccess }: PostFormProps) {
           rows={10}
           required
         />
+        <div className={styles.preview}>
+          <h4>Preview:</h4>
+          <Markdown>{formData.content}</Markdown>
+        </div>
       </div>
 
       <div className={styles.formGroup}>
@@ -92,4 +99,4 @@ export default function PostForm({ onSuccess }: PostFormProps) {
       </div>
     </form>
   );
-} 
+}
