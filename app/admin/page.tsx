@@ -1,11 +1,11 @@
 "use client";
 
 import styles from "./page.module.css";
-import PostForm from "@/components/PostForm";
+import PostForm from "@/components/postForm/PostForm";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import Pagination from "@/components/Pagination";
+import Pagination from "@/components/pagination/Pagination";
 
 interface Post {
   _id: string;

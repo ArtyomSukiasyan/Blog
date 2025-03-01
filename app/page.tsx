@@ -1,6 +1,6 @@
 import styles from "./page.module.css";
-import PostCard from "@/components/PostCard";
-import Pagination from "@/components/Pagination";
+import PostCard from "@/components/postCard/PostCard";
+import Pagination from "@/components/pagination/Pagination";
 import Link from "next/link";
 import { Metadata } from "next";
 
