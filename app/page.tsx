@@ -2,6 +2,12 @@ import styles from "./page.module.css";
 import PostCard from "@/components/PostCard";
 import Pagination from "@/components/Pagination";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blog | devchessplayer",
+  description: "Personal blog of JS Engineer Artyom Sukiasyan | devchessplayer",
+};
 
 async function getPosts(tag?: string, page: number = 1) {
   const params = new URLSearchParams();

@@ -2,6 +2,25 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import styles from "./page.module.css";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const { id } = await params;
+  const { post } = (await getPost(id)) || { post: null };
+  if (!post) {
+    return {
+      title: "",
+    };
+  }
+  return {
+    title: `${post.title} | devchessplayer`,
+    description: post.content.slice(0, 100),
+  };
+}
 
 async function getPost(id: string) {
   try {
