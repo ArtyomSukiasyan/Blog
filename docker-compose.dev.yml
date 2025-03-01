@@ -9,9 +9,20 @@ services:
       - "127.0.0.1:27017:27017"
     volumes:
       - mongo_data:/data/db
+    networks:
+      - blog-network
+
+  mongo-express:
+    image: mongo-express
+    container_name: blog-mongo-admin
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_BASICAUTH: "false"
+    depends_on:
+      - mongo
     networks:
       - blog-network
 
@@ -20,4 +31,4 @@ networks:
     driver: bridge
 
 volumes:
-  mongo_data: 
+  mongo_data:
