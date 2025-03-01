@@ -1,14 +1,14 @@
-import styles from './page.module.css';
-import PostCard from '@/components/PostCard';
-import Link from 'next/link';
+import styles from "./page.module.css";
+import PostCard from "@/components/PostCard";
+import Link from "next/link";
 
 async function getPosts(tag?: string) {
-  const url = tag 
+  const url = tag
     ? `http://localhost:3000/api/posts?tag=${encodeURIComponent(tag)}`
-    : 'http://localhost:3000/api/posts';
-    
-  const res = await fetch(url, { cache: 'no-store' });
-  if (!res.ok) throw new Error('Failed to fetch posts');
+    : "http://localhost:3000/api/posts";
+
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to fetch posts");
   return res.json();
 }
 
@@ -17,17 +17,20 @@ export default async function Home({
 }: {
   searchParams: { tag?: string };
 }) {
-  const { posts } = await getPosts(searchParams.tag);
+  const { tag } = await searchParams;
+  const { posts } = await getPosts(tag);
 
   return (
     <div className={styles.container}>
       <header className={styles.header}>
         <div className={styles.headerLeft}>
           <h1>My Blog</h1>
-          {searchParams.tag && (
+          {tag && (
             <div className={styles.activeFilter}>
-              Filtered by tag: <span className={styles.activeTag}>{searchParams.tag}</span>
-              <Link href="/" className={styles.clearFilter}>✕</Link>
+              Filtered by tag: <span className={styles.activeTag}>{tag}</span>
+              <Link href="/" className={styles.clearFilter}>
+                ✕
+              </Link>
             </div>
           )}
         </div>
@@ -46,9 +49,9 @@ export default async function Home({
           ))
         ) : (
           <p className={styles.noPosts}>
-            {searchParams.tag 
+            {tag
               ? `No posts found with tag "${searchParams.tag}"`
-              : 'No posts yet.'}
+              : "No posts yet."}
           </p>
         )}
       </main>
