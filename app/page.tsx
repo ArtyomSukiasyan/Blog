@@ -31,9 +31,6 @@ export default async function Home({
             </div>
           )}
         </div>
-        <a href="/posts/new" className={styles.createButton}>
-          Create New Post
-        </a>
       </header>
 
       <main className={styles.main}>
@@ -51,7 +48,7 @@ export default async function Home({
           <p className={styles.noPosts}>
             {searchParams.tag 
               ? `No posts found with tag "${searchParams.tag}"`
-              : 'No posts yet. Create your first post!'}
+              : 'No posts yet.'}
           </p>
         )}
       </main>
