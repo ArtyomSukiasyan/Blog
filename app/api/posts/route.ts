@@ -2,28 +2,43 @@ import { NextResponse } from "next/server";
 import connectMongo from "@/lib/mongodb";
 import Post from "@/models/Post";
 
+const POSTS_PER_PAGE = 10;
+
 export async function GET(request: Request) {
   try {
     await connectMongo();
 
     const { searchParams } = new URL(request.url);
     const tag = searchParams.get("tag");
+    const page = parseInt(searchParams.get("page") || "1");
     const date = searchParams.get("date");
 
     const query: any = {};
     if (tag) {
       query.tags = tag;
     }
-
     if (date) {
       query.date = date;
     }
 
+    const totalPosts = await Post.countDocuments(query);
+    const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+
     const posts = await Post.find(query)
       .sort({ date: -1, createdAt: -1 })
+      .skip((page - 1) * POSTS_PER_PAGE)
+      .limit(POSTS_PER_PAGE)
       .select("title content tags date");
 
-    return NextResponse.json({ posts });
+    return NextResponse.json({
+      posts,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalPosts,
+        postsPerPage: POSTS_PER_PAGE,
+      },
+    });
   } catch (error) {
     console.error("Failed to fetch posts:", error);
     return NextResponse.json(

@@ -1,0 +1,42 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.pageNumbers {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pageLink {
+  padding: 0.5rem 1rem;
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+
+.pageLink:hover {
+  border-color: #0070f3;
+  color: #0070f3;
+}
+
+.pageLink.active {
+  background: #0070f3;
+  color: white;
+  border-color: #0070f3;
+}
+
+@media (max-width: 600px) {
+  .pageNumbers {
+    display: none;
+  }
+  
+  .pagination {
+    gap: 2rem;
+  }
+} 

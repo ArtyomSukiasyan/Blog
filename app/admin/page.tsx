@@ -5,6 +5,7 @@ import PostForm from "@/components/PostForm";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import Pagination from "@/components/Pagination";
 
 interface Post {
   _id: string;
@@ -13,22 +14,27 @@ interface Post {
   tags: string[];
 }
 
+const POSTS_PER_PAGE = 10; // More posts per page in admin view
+
 export default function AdminPage() {
   const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    fetchPosts(currentPage);
+  }, [currentPage]);
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (page: number) => {
     try {
-      const res = await fetch("http://localhost:3000/api/posts");
-      if (!res.ok) throw new Error("Failed to fetch posts");
+      const res = await fetch(`/api/posts?page=${page}`);
+      if (!res.ok) throw new Error('Failed to fetch posts');
       const data = await res.json();
       setPosts(data.posts);
+      setTotalPages(data.pagination.totalPages);
     } catch (error) {
-      console.error("Error fetching posts:", error);
+      console.error('Error fetching posts:', error);
     }
   };
 
@@ -44,7 +50,7 @@ export default function AdminPage() {
 
       if (!res.ok) throw new Error("Failed to delete post");
 
-      fetchPosts();
+      fetchPosts(currentPage);
     } catch (error) {
       console.error("Error deleting post:", error);
     }
@@ -64,7 +70,7 @@ export default function AdminPage() {
       <main className={styles.main}>
         <section className={styles.createPost}>
           <h2>Create New Post</h2>
-          <PostForm onSuccess={fetchPosts} />
+          <PostForm onSuccess={() => fetchPosts(currentPage)} />
         </section>
 
         <section className={styles.posts}>
@@ -95,6 +101,11 @@ export default function AdminPage() {
               </div>
             ))}
           </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </section>
       </main>
     </div>

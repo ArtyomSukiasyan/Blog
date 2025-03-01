@@ -1,12 +1,16 @@
 import styles from "./page.module.css";
 import PostCard from "@/components/PostCard";
+import Pagination from "@/components/Pagination";
 import Link from "next/link";
 
-async function getPosts(tag?: string) {
-  const url = tag
-    ? `http://localhost:3000/api/posts?tag=${encodeURIComponent(tag)}`
-    : "http://localhost:3000/api/posts";
+async function getPosts(tag?: string, page: number = 1) {
+  const params = new URLSearchParams();
+  if (tag) {
+    params.set("tag", tag);
+  }
+  params.set("page", page.toString());
 
+  const url = `http://localhost:3000/api/posts?${params.toString()}`;
   const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) throw new Error("Failed to fetch posts");
   return res.json();
@@ -15,10 +19,12 @@ async function getPosts(tag?: string) {
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { tag?: string };
+  searchParams: { tag?: string; page?: string };
 }) {
-  const { tag } = await searchParams;
-  const { posts } = await getPosts(tag);
+  const { tag, page = "1" } = await searchParams;
+  const currentPage = parseInt(page);
+
+  const { posts, pagination } = await getPosts(tag, currentPage);
 
   return (
     <div className={styles.container}>
@@ -38,20 +44,27 @@ export default async function Home({
 
       <main className={styles.main}>
         {posts.length > 0 ? (
-          posts.map((post: any) => (
-            <PostCard
-              key={post._id}
-              id={post._id}
-              title={post.title}
-              date={post.date}
-              tags={post.tags}
+          <>
+            <div className={styles.posts}>
+              {posts.map((post: any) => (
+                <PostCard
+                  key={post._id}
+                  id={post._id}
+                  title={post.title}
+                  date={post.date}
+                  tags={post.tags}
+                />
+              ))}
+            </div>
+            <Pagination
+              currentPage={pagination.currentPage}
+              totalPages={pagination.totalPages}
+              tag={tag}
             />
-          ))
+          </>
         ) : (
           <p className={styles.noPosts}>
-            {tag
-              ? `No posts found with tag "${searchParams.tag}"`
-              : "No posts yet."}
+            {tag ? `No posts found with tag "${tag}"` : "No posts yet."}
           </p>
         )}
       </main>
