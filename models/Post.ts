@@ -43,7 +43,6 @@ const PostSchema = new mongoose.Schema(
   }
 );
 
-PostSchema.index({ title: "text" });
 PostSchema.index({ tags: 1 });
 PostSchema.index({ date: 1 });
 
