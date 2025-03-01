@@ -60,7 +60,6 @@ export async function PUT(
     await connectMongo();
     const body = await request.json();
     
-    // Ensure tags are unique and properly formatted
     if (body.tags) {
       body.tags = [...new Set(body.tags.map((tag: string) => 
         tag.toLowerCase().trim()

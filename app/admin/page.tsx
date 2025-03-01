@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import styles from './page.module.css';
-import PostForm from '@/components/PostForm';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import styles from "./page.module.css";
+import PostForm from "@/components/PostForm";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 interface Post {
   _id: string;
@@ -23,31 +23,30 @@ export default function AdminPage() {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/posts');
-      if (!res.ok) throw new Error('Failed to fetch posts');
+      const res = await fetch("http://localhost:3000/api/posts");
+      if (!res.ok) throw new Error("Failed to fetch posts");
       const data = await res.json();
       setPosts(data.posts);
     } catch (error) {
-      console.error('Error fetching posts:', error);
+      console.error("Error fetching posts:", error);
     }
   };
 
   const handleDelete = async (postId: string) => {
-    if (!confirm('Are you sure you want to delete this post?')) {
+    if (!confirm("Are you sure you want to delete this post?")) {
       return;
     }
 
     try {
       const res = await fetch(`/api/posts/${postId}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
-      if (!res.ok) throw new Error('Failed to delete post');
+      if (!res.ok) throw new Error("Failed to delete post");
 
-      // Refresh the posts list
       fetchPosts();
     } catch (error) {
-      console.error('Error deleting post:', error);
+      console.error("Error deleting post:", error);
     }
   };
 
@@ -85,10 +84,8 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className={styles.actions}>
-                  <Link href={`/admin/posts/${post._id}/edit`}>
-                    Edit
-                  </Link>
-                  <button 
+                  <Link href={`/admin/posts/${post._id}/edit`}>Edit</Link>
+                  <button
                     className={styles.deleteButton}
                     onClick={() => handleDelete(post._id)}
                   >
@@ -102,4 +99,4 @@ export default function AdminPage() {
       </main>
     </div>
   );
-} 
+}
