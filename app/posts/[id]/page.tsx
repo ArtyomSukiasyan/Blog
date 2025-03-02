@@ -3,6 +3,7 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import styles from "./page.module.css";
 import { Metadata } from "next";
+import getPostById from "@/helpers/getPostById";
 
 export async function generateMetadata({
   params,
@@ -10,7 +11,7 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   const { id } = await params;
-  const { post } = (await getPost(id)) || { post: null };
+  const { post } = (await getPostById(id)) || { post: null };
   if (!post) {
     return {
       title: "",
@@ -22,21 +23,9 @@ export async function generateMetadata({
   };
 }
 
-async function getPost(id: string) {
-  try {
-    const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
-      cache: "no-store",
-    });
-    if (!res.ok) throw new Error("Failed to fetch post");
-    return res.json();
-  } catch (error) {
-    return null;
-  }
-}
-
 export default async function PostPage({ params }: { params: { id: string } }) {
   const { id } = await params;
-  const { post } = (await getPost(id)) || { post: null };
+  const { post } = (await getPostById(id)) || { post: null };
 
   if (!post) {
     notFound();

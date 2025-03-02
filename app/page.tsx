@@ -3,29 +3,22 @@ import PostCard from "@/components/postCard/PostCard";
 import Pagination from "@/components/pagination/Pagination";
 import Link from "next/link";
 import { Metadata } from "next";
+import getPosts from "@/helpers/getPosts";
 
 export const metadata: Metadata = {
   title: "Blog | devchessplayer",
   description: "Personal blog of JS Engineer Artyom Sukiasyan | devchessplayer",
 };
 
-async function getPosts(tag?: string, page: number = 1) {
-  const params = new URLSearchParams();
-  if (tag) {
-    params.set("tag", tag);
-  }
-  params.set("page", page.toString());
-
-  const url = `http://localhost:3000/api/posts?${params.toString()}`;
-  const res = await fetch(url, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch posts");
-  return res.json();
+interface IParams {
+  tag?: string;
+  page?: string;
 }
 
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { tag?: string; page?: string };
+  searchParams: IParams;
 }) {
   const { tag, page = "1" } = await searchParams;
   const currentPage = parseInt(page);
