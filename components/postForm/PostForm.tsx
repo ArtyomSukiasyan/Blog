@@ -5,7 +5,7 @@ import styles from "./PostForm.module.css";
 import Markdown from "react-markdown";
 
 interface PostFormProps {
-  onSuccess?: () => void;
+  onSuccess: () => void;
 }
 
 export default function PostForm({ onSuccess }: PostFormProps) {
@@ -35,7 +35,7 @@ export default function PostForm({ onSuccess }: PostFormProps) {
       }
 
       setFormData({ title: "", content: "", tags: "" });
-      onSuccess?.();
+      onSuccess();
     } catch (error) {
       console.error("Error creating post:", error);
     }

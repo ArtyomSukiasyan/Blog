@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import styles from './Pagination.module.css';
+import Link from "next/link";
+import styles from "./Pagination.module.css";
 
 interface PaginationProps {
   currentPage: number;
@@ -7,23 +7,30 @@ interface PaginationProps {
   tag?: string;
 }
 
-export default function Pagination({ currentPage, totalPages, tag }: PaginationProps) {
-  if (totalPages <= 1) return null;
+export default function Pagination({
+  currentPage,
+  totalPages,
+  tag,
+}: PaginationProps) {
+  if (totalPages < 2) {
+    return null;
+  }
 
   const createPageUrl = (pageNum: number) => {
     const params = new URLSearchParams();
-    params.set('page', pageNum.toString());
-    if (tag) params.set('tag', tag);
+    params.set("page", pageNum.toString());
+    
+    if (tag) {
+      params.set("tag", tag);
+    }
+    
     return `/?${params.toString()}`;
   };
 
   return (
     <div className={styles.pagination}>
       {currentPage > 1 && (
-        <Link
-          href={createPageUrl(currentPage - 1)}
-          className={styles.pageLink}
-        >
+        <Link href={createPageUrl(currentPage - 1)} className={styles.pageLink}>
           ← Previous
         </Link>
       )}
@@ -34,7 +41,7 @@ export default function Pagination({ currentPage, totalPages, tag }: PaginationP
             key={pageNum}
             href={createPageUrl(pageNum)}
             className={`${styles.pageLink} ${
-              pageNum === currentPage ? styles.active : ''
+              pageNum === currentPage ? styles.active : ""
             }`}
           >
             {pageNum}
@@ -43,13 +50,10 @@ export default function Pagination({ currentPage, totalPages, tag }: PaginationP
       </div>
 
       {currentPage < totalPages && (
-        <Link
-          href={createPageUrl(currentPage + 1)}
-          className={styles.pageLink}
-        >
+        <Link href={createPageUrl(currentPage + 1)} className={styles.pageLink}>
           Next →
         </Link>
       )}
     </div>
   );
-} 
+}
