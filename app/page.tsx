@@ -29,7 +29,7 @@ export default async function Home({
     <div className={styles.container}>
       <header className={styles.header}>
         <div className={styles.headerLeft}>
-          <h1>My Blog</h1>
+          <h1>Blog | Devchessplayer</h1>
           {tag && (
             <div className={styles.activeFilter}>
               Filtered by tag: <span className={styles.activeTag}>{tag}</span>
@@ -46,13 +46,7 @@ export default async function Home({
           <>
             <div className={styles.posts}>
               {posts.map((post: any) => (
-                <PostCard
-                  key={post._id}
-                  id={post._id}
-                  title={post.title}
-                  date={post.date}
-                  tags={post.tags}
-                />
+                <PostCard key={post._id} id={post._id} {...post} />
               ))}
             </div>
             <Pagination
