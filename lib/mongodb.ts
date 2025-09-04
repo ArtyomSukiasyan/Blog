@@ -3,10 +3,6 @@ import mongoose from "mongoose";
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://root:example@127.0.0.1:27017/blog";
 
 const connectMongo = async () => {
-  if (mongoose.connection.readyState >= 1) {
-    return;
-  }
-
   try {
     await mongoose.connect(MONGODB_URI, {
       dbName: "blog",
@@ -19,4 +15,4 @@ const connectMongo = async () => {
   }
 };
 
-export default connectMongo; 
+export default connectMongo;

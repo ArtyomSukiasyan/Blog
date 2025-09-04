@@ -29,7 +29,9 @@ export default function AdminPage() {
   const fetchPosts = async (page: number) => {
     try {
       const res = await fetch(`/api/posts?page=${page}`);
-      if (!res.ok) throw new Error('Failed to fetch posts');
+      if (!res.ok) {
+        throw new Error('Failed to fetch posts');
+      }
       const data = await res.json();
       setPosts(data.posts);
       setTotalPages(data.pagination.totalPages);
@@ -48,7 +50,9 @@ export default function AdminPage() {
         method: "DELETE",
       });
 
-      if (!res.ok) throw new Error("Failed to delete post");
+      if (!res.ok) {
+        throw new Error("Failed to delete post");
+      }
 
       fetchPosts(currentPage);
     } catch (error) {
