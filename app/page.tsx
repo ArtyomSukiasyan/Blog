@@ -4,6 +4,8 @@ import Pagination from "@/components/pagination/Pagination";
 import Link from "next/link";
 import { Metadata } from "next";
 import getPosts from "@/helpers/getPosts";
+import GoodReads from "@/components/goodreads/Goodreads";
+import LichessFeed from "@/components/lichess/Lichess";
 
 export const metadata: Metadata = {
   title: "Blog | devchessplayer",
@@ -28,39 +30,44 @@ export default async function Home({
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          <h1>Blog | Devchessplayer</h1>
-          {tag && (
-            <div className={styles.activeFilter}>
-              Filtered by tag: <span className={styles.activeTag}>{tag}</span>
-              <Link href="/" className={styles.clearFilter}>
-                ✕
-              </Link>
-            </div>
-          )}
-        </div>
-      </header>
-
-      <main className={styles.main}>
-        {posts.length > 0 ? (
-          <>
-            <div className={styles.posts}>
-              {posts.map((post: any) => (
-                <PostCard key={post._id} id={post._id} {...post} />
-              ))}
-            </div>
-            <Pagination
-              currentPage={pagination.currentPage}
-              totalPages={pagination.totalPages}
-              tag={tag}
-            />
-          </>
-        ) : (
-          <p className={styles.noPosts}>
-            {tag ? `No posts found with tag "${tag}"` : "No posts yet."}
-          </p>
+        <h1>Blog | Devchessplayer</h1>
+        {tag && (
+          <div className={styles.activeFilter}>
+            Filtered by tag: <span className={styles.activeTag}>{tag}</span>
+            <Link href="/" className={styles.clearFilter}>
+              ✕
+            </Link>
+          </div>
         )}
-      </main>
+      </header>
+      <div className={styles.page_content}>
+        <aside>
+          <GoodReads />
+        </aside>
+        <main className={styles.main}>
+          {posts.length > 0 ? (
+            <>
+              <div className={styles.posts}>
+                {posts.map((post: any) => (
+                  <PostCard key={post._id} id={post._id} {...post} />
+                ))}
+              </div>
+              <Pagination
+                currentPage={pagination.currentPage}
+                totalPages={pagination.totalPages}
+                tag={tag}
+              />
+            </>
+          ) : (
+            <p className={styles.noPosts}>
+              {tag ? `No posts found with tag "${tag}"` : "No posts yet."}
+            </p>
+          )}
+        </main>
+        <aside>
+          <LichessFeed />
+        </aside>
+      </div>
     </div>
   );
 }
