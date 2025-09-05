@@ -1,11 +1,9 @@
 "use client";
 
-import styles from "./page.module.css";
-import PostForm from "@/components/postForm/PostForm";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import Pagination from "@/components/pagination/Pagination";
+import PostForm from "@/components/postForm/PostForm";
+import styles from "./page.module.css";
 
 interface Post {
   _id: string;
@@ -14,21 +12,20 @@ interface Post {
   tags: string[];
 }
 
-const POSTS_PER_PAGE = 10; // More posts per page in admin view
+const itemsPerPage = 10;
 
 export default function AdminPage() {
-  const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    fetchPosts(currentPage);
+    fetchPosts(currentPage, itemsPerPage);
   }, [currentPage]);
 
-  const fetchPosts = async (page: number) => {
+  const fetchPosts = async (page: number, limit: number) => {
     try {
-      const res = await fetch(`/api/posts?page=${page}`);
+      const res = await fetch(`/api/posts?page=${page}&limit=${limit}`);
       if (!res.ok) {
         throw new Error('Failed to fetch posts');
       }
@@ -54,7 +51,7 @@ export default function AdminPage() {
         throw new Error("Failed to delete post");
       }
 
-      fetchPosts(currentPage);
+      fetchPosts(currentPage, itemsPerPage);
     } catch (error) {
       console.error("Error deleting post:", error);
     }
@@ -74,7 +71,7 @@ export default function AdminPage() {
       <main className={styles.main}>
         <section className={styles.createPost}>
           <h2>Create New Post</h2>
-          <PostForm onSuccess={() => fetchPosts(currentPage)} />
+          <PostForm onSuccess={() => fetchPosts(currentPage, itemsPerPage)} />
         </section>
 
         <section className={styles.posts}>
@@ -105,11 +102,25 @@ export default function AdminPage() {
               </div>
             ))}
           </div>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
+          <div className={styles.pagination}>
+            <button
+              className={styles.pageButton}
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              ← Previous
+            </button>
+            <span className={styles.pageInfo}>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              className={styles.pageButton}
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next →
+            </button>
+          </div>
         </section>
       </main>
     </div>

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import connectMongo from "@/lib/mongodb";
 import Post from "@/models/Post";
 
-const POSTS_PER_PAGE = 10;
+const DEFAULT_POSTS_PER_PAGE = 10;
 
 export async function GET(request: Request) {
   try {
@@ -12,6 +12,7 @@ export async function GET(request: Request) {
     const tag = searchParams.get("tag");
     const page = parseInt(searchParams.get("page") || "1");
     const date = searchParams.get("date");
+    const limit = parseInt(searchParams.get("limit") || `${DEFAULT_POSTS_PER_PAGE}`);
 
     const query: any = {};
     if (tag) {
@@ -22,12 +23,12 @@ export async function GET(request: Request) {
     }
 
     const totalPosts = await Post.countDocuments(query);
-    const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+    const totalPages = Math.ceil(totalPosts / limit);
 
     const posts = await Post.find(query)
       .sort({ date: -1, createdAt: -1 })
-      .skip((page - 1) * POSTS_PER_PAGE)
-      .limit(POSTS_PER_PAGE)
+      .skip((page - 1) * limit)
+      .limit(limit)
       .select("title content tags date");
 
     return NextResponse.json({
@@ -36,7 +37,7 @@ export async function GET(request: Request) {
         currentPage: page,
         totalPages,
         totalPosts,
-        postsPerPage: POSTS_PER_PAGE,
+        postsPerPage: limit,
       },
     });
   } catch (error) {
