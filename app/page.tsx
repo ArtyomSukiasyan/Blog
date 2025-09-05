@@ -30,7 +30,7 @@ export default async function Home({
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h1>Blog | Devchessplayer</h1>
+        <h1 className={styles.page_title}>Blog | Devchessplayer</h1>
         {tag && (
           <div className={styles.activeFilter}>
             Filtered by tag: <span className={styles.activeTag}>{tag}</span>
@@ -42,7 +42,14 @@ export default async function Home({
       </header>
       <div className={styles.page_content}>
         <aside>
-          <GoodReads />
+          <ul>
+            <li>
+              <a href="">Github</a>
+              <a href="">Linkedin</a>
+              <a href="">Twitter</a>
+              <a href="">Facebook</a>
+            </li>
+          </ul>
         </aside>
         <main className={styles.main}>
           {posts.length > 0 ? (
@@ -64,7 +71,8 @@ export default async function Home({
             </p>
           )}
         </main>
-        <aside>
+        <aside className={styles.widgets}>
+          <GoodReads />
           <LichessFeed />
         </aside>
       </div>

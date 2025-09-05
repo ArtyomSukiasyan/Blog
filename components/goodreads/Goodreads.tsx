@@ -14,7 +14,6 @@ export default function Goodreads() {
                 </a>
             </h2>
 
-            {/* Book 1 */}
             <div className={styles.eachBook}>
                 <div className={styles.bookCover}>
                     <a
@@ -49,7 +48,6 @@ export default function Goodreads() {
                 </div>
             </div>
 
-            {/* Book 2 */}
             <div className={styles.eachBook}>
                 <div className={styles.bookCover}>
                     <a
@@ -84,9 +82,8 @@ export default function Goodreads() {
                 </div>
             </div>
 
-            {/* Footer */}
             <div className={styles.footer}>
-                <a href="https://www.goodreads.com/" rel="nofollow" target="_blank">
+                <a href="https://www.goodreads.com/user/show/160160842-artyom-sukiasyan" rel="nofollow" target="_blank">
                     <img
                         src="https://s.gr-assets.com/images/widget/widget_logo.gif"
                         alt="goodreads.com"

@@ -33,7 +33,7 @@ export default async function LichessFeed() {
   }));
 
   return (
-    <div style={{ maxWidth: 600, margin: "0 auto" }}>
+    <div>
       <h2>Chess Blog</h2>
       <ul style={{ listStyle: "none", padding: 0 }}>
         {posts.map((item, i) => (
