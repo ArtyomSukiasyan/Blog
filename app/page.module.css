@@ -104,11 +104,11 @@ a.secondary {
   flex-shrink: 0;
 }
 
-.widgets {
+.widgets, .links {
   display: flex;
   flex-direction: column;
   gap: 32px;
-  width: 25%;
+  width: 20%;
 }
 
 .container {
@@ -200,7 +200,7 @@ a.secondary {
     width: 100%;
   }
 
-  .widgets {
+  .widgets, .links {
     width: 100%;
   }
 

@@ -1,0 +1,12 @@
+.links_container {
+    display: flex;
+    justify-content: center;
+    /* flex-direction: column; */
+    gap: 1rem;
+}
+
+@media screen and (max-width: 1025px) {
+    .links_container {
+        flex-direction: row;
+    }
+}

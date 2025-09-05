@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import getPosts from "@/helpers/getPosts";
 import GoodReads from "@/components/goodreads/Goodreads";
 import LichessFeed from "@/components/lichess/Lichess";
+import Links from "@/components/links/Links";
 
 export const metadata: Metadata = {
   title: "Blog | devchessplayer",
@@ -41,15 +42,8 @@ export default async function Home({
         )}
       </header>
       <div className={styles.page_content}>
-        <aside>
-          <ul>
-            <li>
-              <a href="">Github</a>
-              <a href="">Linkedin</a>
-              <a href="">Twitter</a>
-              <a href="">Facebook</a>
-            </li>
-          </ul>
+        <aside className={styles.links}>
+          <Links />
         </aside>
         <main className={styles.main}>
           {posts.length > 0 ? (
