@@ -27,8 +27,11 @@ export default function EditPost({ params }: { params: { id: string } }) {
 
   const fetchPost = async () => {
     try {
-      const res = await fetch(`/api/posts/${params.id}`);
-      if (!res.ok) throw new Error('Failed to fetch post');
+      const { id } = await params;
+      const res = await fetch(`/api/posts/${id}`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch post');
+      }
       const data = await res.json();
       setPost(data.post);
       setFormData({
@@ -45,7 +48,8 @@ export default function EditPost({ params }: { params: { id: string } }) {
     e.preventDefault();
 
     try {
-      const res = await fetch(`/api/posts/${params.id}`, {
+      const { id } = await params;
+      const res = await fetch(`/api/posts/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

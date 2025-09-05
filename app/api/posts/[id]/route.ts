@@ -7,16 +7,17 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { id } = await params;
     await connectMongo();
-    const post = await Post.findById(params.id);
-    
+    const post = await Post.findById(id);
+
     if (!post) {
       return NextResponse.json(
         { error: "Post not found" },
         { status: 404 }
       );
     }
-    
+
     return NextResponse.json({ post });
   } catch (error) {
     console.error('Failed to fetch post:', error);
@@ -33,15 +34,17 @@ export async function DELETE(
 ) {
   try {
     await connectMongo();
-    const post = await Post.findByIdAndDelete(params.id);
-    
+
+    const { id } = await params;
+    const post = await Post.findByIdAndDelete(id);
+
     if (!post) {
       return NextResponse.json(
         { error: "Post not found" },
         { status: 404 }
       );
     }
-    
+
     return NextResponse.json({ message: "Post deleted successfully" });
   } catch (error) {
     console.error('Failed to delete post:', error);
@@ -59,26 +62,27 @@ export async function PUT(
   try {
     await connectMongo();
     const body = await request.json();
-    
+
     if (body.tags) {
-      body.tags = [...new Set(body.tags.map((tag: string) => 
+      body.tags = [...new Set(body.tags.map((tag: string) =>
         tag.toLowerCase().trim()
       ))];
     }
-    
+
+    const { id } = await params;
     const post = await Post.findByIdAndUpdate(
-      params.id,
+      id,
       body,
       { new: true, runValidators: true }
     );
-    
+
     if (!post) {
       return NextResponse.json(
         { error: "Post not found" },
         { status: 404 }
       );
     }
-    
+
     return NextResponse.json({ post });
   } catch (error) {
     console.error('Failed to update post:', error);
