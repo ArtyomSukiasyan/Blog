@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     const date = searchParams.get("date");
     const limit = parseInt(searchParams.get("limit") || `${DEFAULT_POSTS_PER_PAGE}`);
 
-    const query: any = {};
+    const query: { tags?: string; date?: string } = {};
     if (tag) {
       query.tags = tag;
     }

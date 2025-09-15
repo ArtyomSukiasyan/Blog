@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
 import styles from "./PostCard.module.css";
 import { IPost } from "@/models/interfaces/post";
 
@@ -18,7 +19,6 @@ export default function PostCard({
       <Link href={`/posts/${id}`} className={styles.titleLink}>
         <h2>{title}</h2>
       </Link>
-      <div>{content.slice(0, 144)}...</div>
       <div className={styles.metadata}>
         <time>{date}</time>
         <div className={styles.tags}>

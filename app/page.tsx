@@ -49,7 +49,7 @@ export default async function Home({
           {posts.length > 0 ? (
             <>
               <div className={styles.posts}>
-                {posts.map((post: any) => (
+                {posts.map((post) => (
                   <PostCard key={post._id} id={post._id} {...post} />
                 ))}
               </div>

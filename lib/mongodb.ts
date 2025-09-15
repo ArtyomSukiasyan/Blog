@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://root:example@127.0.0.1:27017/blog";
+const { MONGODB_URI, DB_NAME, AUTH_SOURCE } = process.env;
 
 const connectMongo = async () => {
   try {
-    await mongoose.connect(MONGODB_URI, {
-      dbName: "blog",
-      authSource: "admin",
+    await mongoose.connect(MONGODB_URI as string, {
+      dbName: DB_NAME,
+      authSource: AUTH_SOURCE,
     });
     console.log("Connected to MongoDB");
   } catch (error) {

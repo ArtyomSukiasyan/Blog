@@ -4,7 +4,7 @@ export default async function getPostById(
   id: string
 ): Promise<{ post: IPost | null }> {
   try {
-    const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
+    const res = await fetch(`${process.env.SERVER_HOST}/api/posts/${id}`, {
       cache: "no-store",
     });
 

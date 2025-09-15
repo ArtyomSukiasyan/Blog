@@ -21,7 +21,7 @@ export default async function LichessFeed() {
 
   const feed = await parser.parseURL(lichessUrl);
 
-  const posts: BlogPost[] = feed.items.map((item: any) => ({
+  const posts: BlogPost[] = feed.items.map((item) => ({
     title: item.title,
     link: item.link,
     contentSnippet: item.contentSnippet,

@@ -17,7 +17,7 @@ export default async function getPosts(
 
   params.set("page", page.toString());
 
-  const url = `http://localhost:3000/api/posts?${params.toString()}`;
+  const url = `${process.env.SERVER_HOST}/api/posts?${params.toString()}`;
   const res = await fetch(url, { cache: "no-store" });
 
   if (!res.ok) {
