@@ -5,11 +5,11 @@ import styles from "./page.module.css";
 import { Metadata } from "next";
 import getPostById from "@/helpers/getPostById";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
+interface IParams {
+  params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: IParams): Promise<Metadata> {
   const { id } = await params;
   const { post } = (await getPostById(id)) || { post: null };
   if (!post) {
@@ -23,7 +23,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function PostPage({ params }: { params: { id: string } }) {
+export default async function PostPage({ params }: IParams) {
   const { id } = await params;
   const { post } = (await getPostById(id)) || { post: null };
 

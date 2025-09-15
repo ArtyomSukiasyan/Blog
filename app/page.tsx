@@ -21,7 +21,7 @@ interface IParams {
 export default async function Home({
   searchParams,
 }: {
-  searchParams: IParams;
+  searchParams: Promise<IParams>;
 }) {
   const { tag, page = "1" } = await searchParams;
   const currentPage = parseInt(page);

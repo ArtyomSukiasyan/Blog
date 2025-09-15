@@ -2,9 +2,11 @@ import { NextResponse } from "next/server";
 import connectMongo from "@/lib/mongodb";
 import Post from "@/models/Post";
 
+interface IParams { params: Promise<{ id: string }> }
+
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: IParams
 ) {
   try {
     const { id } = await params;
@@ -30,7 +32,7 @@ export async function GET(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: IParams
 ) {
   try {
     await connectMongo();
@@ -57,7 +59,7 @@ export async function DELETE(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: IParams
 ) {
   try {
     await connectMongo();

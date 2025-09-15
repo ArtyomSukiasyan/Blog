@@ -12,7 +12,7 @@ interface Post {
   tags: string[];
 }
 
-export default function EditPost({ params }: { params: { id: string } }) {
+export default function EditPost({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const [post, setPost] = useState<Post | null>(null);
   const [formData, setFormData] = useState({
