@@ -40,11 +40,11 @@ export default async function LichessFeed() {
           <li
             key={i}
             style={{
-              border: "1px solid #ddd",
+              border: "1px solid #1a1146",
               borderRadius: 8,
               padding: 16,
               marginBottom: 20,
-              background: "#fff",
+              background: "#f0f3fb",
               boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
             }}
           >
