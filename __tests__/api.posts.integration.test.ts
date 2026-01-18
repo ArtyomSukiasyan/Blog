@@ -5,6 +5,7 @@ describe('Posts API', () => {
 
     it('GET /api/posts returns paginated posts', async () => {
         const res = await request(apiUrl).get('?page=1&limit=2');
+
         expect(res.status).toBe(200);
         expect(res.body).toHaveProperty('posts');
         expect(res.body).toHaveProperty('pagination');
@@ -16,6 +17,7 @@ describe('Posts API', () => {
     it('POST /api/posts creates a post', async () => {
         const postData = { title: 'Test', content: 'Test content', tags: ['test'] };
         const res = await request(apiUrl).post('').send(postData);
+
         expect(res.status).toBe(201);
         expect(res.body).toHaveProperty('post');
         expect(res.body.post.title).toBe('Test');
@@ -27,6 +29,7 @@ describe('Posts API', () => {
         const postId = savedPost.body.post?._id;
         const updateData = { title: 'Updated Title' };
         const res = await request(apiUrl + `?id=${postId}`).put('').send(updateData);
+
         expect(res.status).toBe(200);
     });
 
@@ -35,6 +38,7 @@ describe('Posts API', () => {
         const savedPost = await request(apiUrl).post('').send(postData);
         const postId = savedPost.body.post?._id;
         const res = await request(apiUrl + `/${postId}`).delete('');
+
         expect(res.status).toBe(200)
     });
 });
